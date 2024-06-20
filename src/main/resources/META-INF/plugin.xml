@@ -9,10 +9,46 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.jdha.codedivider.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <applicationService
+                serviceImplementation="com.github.jdha.codedivider.settings.CodeDividerSettingsState"
+        />
+
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.github.jdha.codedivider.settings.CodeDividerSettingsConfigurable"
+                id="org.intellij.sdk.settings.AppSettingsConfigurable"
+                displayName="Code Divider"
+        />
     </extensions>
 
-    <applicationListeners>
-        <listener class="com.github.jdha.codedivider.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
+    <actions>
+        <action id="com.github.jdha.codedivider.action.CodeDividerLineTextLeft"
+                class="com.github.jdha.codedivider.action.CodeDividerLineTextLeft"
+                text="Code Divider - Line - Text Left"
+                description="Code Divider - Line with text to left.">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+
+        <action id="com.github.jdha.codedivider.action.CodeDividerLineTextCenter"
+                class="com.github.jdha.codedivider.action.CodeDividerLineTextCenter"
+                text="Code Divider - Line - Text Center"
+                description="Code Divider - Line with text in the center.">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+
+        <action id="com.github.jdha.codedivider.action.CodeDividerLineTextRight"
+                class="com.github.jdha.codedivider.action.CodeDividerLineTextRight"
+                text="Code Divider - Line - Text Right"
+                description="Code Divider - Line with text to right.">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+
+        <action id="com.github.jdha.codedivider.action.CodeDividerBox"
+                class="com.github.jdha.codedivider.action.CodeDividerBox"
+                text="Code Divider - Box"
+                description="Code Divider - Encapsulate text in box.">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
+
 </idea-plugin>
