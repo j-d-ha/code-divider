@@ -12,55 +12,139 @@ class CodeDividerSettingsConfigurable : BoundConfigurable("Code Divider") {
 
     override fun createPanel(): DialogPanel {
         return panel {
-            group("Code Divider - Line") {
-                row("Line length") { spinner(40..300).bindIntValue(settings::lineLength) }
+            // ══ LINE ═════════════════════════════════════════════════════════════════════════════
+            collapsibleGroup("Code Divider - Line") {
+                    // ── Normal Line ──────────────────────────────────────────────────────────────
+                    group("Normal Line") {
+                        row("Line length") {
+                            spinner(40..300).bindIntValue(settings.normalLineSettings::lineLength)
+                        }
 
-                row("Text case") {
-                    comboBox(Case.values().asList())
-                        .bindItem(settings::textCase.toNullableProperty())
-                }
+                        row("Text case") {
+                            comboBox(TextCase.values().asList())
+                                .bindItem(
+                                    settings.normalLineSettings::textCase.toNullableProperty())
+                        }
 
-                row("Whitespace pad comment symbol") {
-                    checkBox("").bindSelected(settings::whiteSpacePadCommentSymbol)
-                }
+                        row("Whitespace pad comment symbol") {
+                            checkBox("")
+                                .bindSelected(
+                                    settings.normalLineSettings::whiteSpacePadCommentSymbol)
+                        }
 
-                row("Custom line character") {
-                    textField().bindText(settings::customLineChar).columns(2).apply {
-                        component.addKeyListener(
-                            object : KeyAdapter() {
-                                override fun keyTyped(e: KeyEvent) {
-                                    val textField = e.source as JTextField
-                                    if (textField.text.isNotEmpty()) {
-                                        e.consume()
-                                    }
+                        row("Error on no comment symbol for language") {
+                            checkBox("")
+                                .bindSelected(settings.normalLineSettings::errorOnNoCommentSymbol)
+                        }
+
+                        row("Custom line character") {
+                            comboBox(listOf("─"))
+                                .applyToComponent {
+                                    isEditable = true
+                                    editor.editorComponent.addKeyListener(
+                                        object : KeyAdapter() {
+                                            override fun keyTyped(e: KeyEvent) {
+                                                val textField = e.source as JTextField
+                                                if (textField.text.isNotEmpty()) {
+                                                    e.consume()
+                                                }
+                                            }
+                                        })
                                 }
-                            })
+                                .bindItem(
+                                    settings.normalLineSettings::customLineChar
+                                        .toNullableProperty())
+                                .columns(5)
+                        }
+
+                        buttonsGroup(title = "Comment Symbol Type") {
+                                row {
+                                    radioButton(
+                                        "Single line comment symbol, start only",
+                                        CommentSymbolType.ONE_SINGLE_LINE)
+                                }
+                                row {
+                                    radioButton(
+                                        "Single line comment symbol, start and end",
+                                        CommentSymbolType.TWO_SINGLE_LINE)
+                                }
+                                row {
+                                    radioButton(
+                                        "Multi line comment symbol, start and end",
+                                        CommentSymbolType.TWO_MULTI_LINE)
+                                }
+                            }
+                            .bind(settings.normalLineSettings::commentSymbolType)
+                    }
+
+                    // ── Heavy Line ───────────────────────────────────────────────────────────────
+                    group("Heavy Line") {
+                        row("Line length") {
+                            spinner(40..300).bindIntValue(settings.heavyLineSettings::lineLength)
+                        }
+
+                        row("Text case") {
+                            comboBox(TextCase.values().asList())
+                                .bindItem(settings.heavyLineSettings::textCase.toNullableProperty())
+                        }
+
+                        row("Whitespace pad comment symbol") {
+                            checkBox("")
+                                .bindSelected(
+                                    settings.heavyLineSettings::whiteSpacePadCommentSymbol)
+                        }
+
+                        row("Error on no comment symbol for language") {
+                            checkBox("")
+                                .bindSelected(settings.heavyLineSettings::errorOnNoCommentSymbol)
+                        }
+
+                        row("Custom line character") {
+                            comboBox(listOf("═"))
+                                .applyToComponent {
+                                    isEditable = true
+                                    editor.editorComponent.addKeyListener(
+                                        object : KeyAdapter() {
+                                            override fun keyTyped(e: KeyEvent) {
+                                                val textField = e.source as JTextField
+                                                if (textField.text.isNotEmpty()) {
+                                                    e.consume()
+                                                }
+                                            }
+                                        })
+                                }
+                                .bindItem(
+                                    settings.heavyLineSettings::customLineChar.toNullableProperty())
+                                .columns(5)
+                        }
+
+                        buttonsGroup(title = "Comment Symbol Type") {
+                                row {
+                                    radioButton(
+                                        "Single line comment symbol, start only",
+                                        CommentSymbolType.ONE_SINGLE_LINE)
+                                }
+                                row {
+                                    radioButton(
+                                        "Single line comment symbol, start and end",
+                                        CommentSymbolType.TWO_SINGLE_LINE)
+                                }
+                                row {
+                                    radioButton(
+                                        "Multi line comment symbol, start and end",
+                                        CommentSymbolType.TWO_MULTI_LINE)
+                                }
+                            }
+                            .bind(settings.heavyLineSettings::commentSymbolType)
                     }
                 }
+                .expanded = true
 
-                buttonsGroup(title = "Comment Symbol Type") {
-                        row {
-                            radioButton(
-                                "Single line comment symbol, start only",
-                                CommentSymbolType.ONE_SINGLE_LINE)
-                        }
-                        row {
-                            radioButton(
-                                "Single line comment symbol, start and end",
-                                CommentSymbolType.TWO_SINGLE_LINE)
-                        }
-                        row {
-                            radioButton(
-                                "Multi line comment symbol, start and end",
-                                CommentSymbolType.TWO_MULTI_LINE)
-                        }
-                    }
-                    .bind(settings::commentSymbolType)
-            }
-
-            group("Code Divider - Box") {
-                row("Box max length") { spinner(40..300).bindIntValue(settings::maxBoxLength) }
-            }
+            // ══ BOX ══════════════════════════════════════════════════════════════════════════════
+            collapsibleGroup("Code Divider - Box") {
+                    row("Box max length") { spinner(40..300).bindIntValue(settings::maxBoxLength) }
+                }
+                .expanded = true
         }
     }
 }

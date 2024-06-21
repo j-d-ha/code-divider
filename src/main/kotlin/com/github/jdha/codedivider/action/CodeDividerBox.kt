@@ -32,9 +32,6 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 
 // ── Line Constants ───────────────────────────────────────────────────────────────────────────────
 
-// General
-const val SPACE = " "
-
 // Normal
 const val NORMAL_HORIZONTAL = "─"
 const val NORMAL_VERTICAL = "│"
