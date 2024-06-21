@@ -142,7 +142,9 @@ class CodeDividerSettingsConfigurable : BoundConfigurable("Code Divider") {
 
             // ══ BOX ══════════════════════════════════════════════════════════════════════════════
             collapsibleGroup("Code Divider - Box") {
-                    row("Box max length") { spinner(40..300).bindIntValue(settings::maxBoxLength) }
+                    row("Box max length") {
+                        spinner(40..300).bindIntValue(settings.boxSettings::maxLineLength)
+                    }
                 }
                 .expanded = true
         }

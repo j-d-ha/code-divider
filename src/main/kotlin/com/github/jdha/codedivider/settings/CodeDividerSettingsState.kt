@@ -8,9 +8,13 @@ import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.Converter
 import com.intellij.util.xmlb.XmlSerializerUtil
 import com.intellij.util.xmlb.annotations.OptionTag
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 
+@Serializable
 enum class TextCase {
     UPPER,
     LOWER,
@@ -18,12 +22,14 @@ enum class TextCase {
     NONE
 }
 
+@Serializable
 enum class TextPosition {
     LEFT,
     CENTER,
     Right
 }
 
+@Serializable
 enum class CommentSymbolType {
     ONE_SINGLE_LINE,
     TWO_SINGLE_LINE,
@@ -38,11 +44,26 @@ enum class BoxType {
     ROUNDED_OPEN_TOP,
 }
 
+@Serializable
+enum class LineType {
+    NORMAL_LINE,
+    HEAVY_LINE,
+}
+
+@Serializable
 data class LineSettings(
+    var lineType: LineType,
     var lineLength: Int,
     var textCase: TextCase,
     var whiteSpacePadCommentSymbol: Boolean,
     var customLineChar: String,
+    var commentSymbolType: CommentSymbolType,
+    var errorOnNoCommentSymbol: Boolean
+)
+
+data class BoxSettings(
+    var maxLineLength: Int,
+    var textCase: TextCase,
     var commentSymbolType: CommentSymbolType,
     var errorOnNoCommentSymbol: Boolean
 )
@@ -53,28 +74,14 @@ class CodeDividerSettingsState : PersistentStateComponent<CodeDividerSettingsSta
 
     // LINE - NORMAL
     @OptionTag(converter = LineSettingsConverter::class)
-    var normalLineSettings =
-        LineSettings(
-            lineLength = 88,
-            textCase = TextCase.TITLE,
-            whiteSpacePadCommentSymbol = true,
-            customLineChar = "─",
-            commentSymbolType = CommentSymbolType.ONE_SINGLE_LINE,
-            errorOnNoCommentSymbol = true)
+    var normalLineSettings = normalSettingDefaults()
 
     // LINE - HEAVY
     @OptionTag(converter = LineSettingsConverter::class)
-    var heavyLineSettings =
-        LineSettings(
-            lineLength = 88,
-            textCase = TextCase.UPPER,
-            whiteSpacePadCommentSymbol = true,
-            customLineChar = "═",
-            commentSymbolType = CommentSymbolType.ONE_SINGLE_LINE,
-            errorOnNoCommentSymbol = true)
+    var heavyLineSettings = heavySettingDefaults()
 
     // BOX
-    var maxBoxLength: Int = 88
+    @OptionTag(converter = BoxSettingsConverter::class) var boxSettings = boxSettingDefaults()
 
     companion object {
         val instance: CodeDividerSettingsState
@@ -91,31 +98,70 @@ class CodeDividerSettingsState : PersistentStateComponent<CodeDividerSettingsSta
 
 // ══ Helpers ══════════════════════════════════════════════════════════════════════════════════════
 
-// This may cause an issue in future as there is an expected number of fields. Adding extra fields
-// will cause this error: Caused by: java.lang.IndexOutOfBoundsException: Index 5 out of bounds for
-// length 5. The only way to fix this is to add logic to check if this error happens and return new
-// default values for the settings struct.
+fun heavySettingDefaults() =
+    LineSettings(
+        lineType = LineType.HEAVY_LINE,
+        lineLength = 88,
+        textCase = TextCase.UPPER,
+        whiteSpacePadCommentSymbol = true,
+        customLineChar = "═",
+        commentSymbolType = CommentSymbolType.ONE_SINGLE_LINE,
+        errorOnNoCommentSymbol = true,
+    )
+
+fun normalSettingDefaults() =
+    LineSettings(
+        lineType = LineType.NORMAL_LINE,
+        lineLength = 88,
+        textCase = TextCase.TITLE,
+        whiteSpacePadCommentSymbol = true,
+        customLineChar = "─",
+        commentSymbolType = CommentSymbolType.ONE_SINGLE_LINE,
+        errorOnNoCommentSymbol = true,
+    )
+
+fun boxSettingDefaults() =
+    BoxSettings(
+        maxLineLength = 88,
+        textCase = TextCase.TITLE,
+        commentSymbolType = CommentSymbolType.ONE_SINGLE_LINE,
+        errorOnNoCommentSymbol = true,
+    )
 
 class LineSettingsConverter : Converter<LineSettings>() {
-    override fun fromString(@NotNull value: String): LineSettings {
-        val parts = value.split("\t")
-        return LineSettings(
-            lineLength = parts[0].toInt(),
-            textCase = TextCase.valueOf(parts[1]),
-            whiteSpacePadCommentSymbol = parts[2].toBoolean(),
-            customLineChar = parts[3],
-            commentSymbolType = CommentSymbolType.valueOf(parts[4]),
-            errorOnNoCommentSymbol = parts[5].toBoolean())
-    }
+    override fun fromString(@NotNull value: String) =
+        try {
+            Json.decodeFromString<LineSettings>(value)
+        } catch (e: Exception) {
+            println("Error encountered while deserializing JSON to LineSettings. Error: $e")
+            when {
+                value.contains(LineType.NORMAL_LINE.name) -> {
+                    println("Setting default values for LineType.NORMAL_LINE")
+                    normalSettingDefaults()
+                }
+                value.contains(LineType.HEAVY_LINE.name) -> {
+                    println("Setting default values for LineType.HEAVY_LINE")
+                    heavySettingDefaults()
+                }
+                else -> {
+                    println("Could not find LineType reference. Setting value to normal default.")
+                    normalSettingDefaults()
+                }
+            }
+        }
 
-    override fun toString(value: LineSettings): String {
-        return listOf(
-                value.lineLength.toString(),
-                value.textCase.name,
-                value.whiteSpacePadCommentSymbol.toString(),
-                value.customLineChar,
-                value.commentSymbolType.name,
-                value.errorOnNoCommentSymbol.toString())
-            .joinToString("\t")
-    }
+    override fun toString(value: LineSettings) = Json.encodeToString(value)
+}
+
+class BoxSettingsConverter : Converter<BoxSettings>() {
+    override fun fromString(@NotNull value: String) =
+        try {
+            Json.decodeFromString<BoxSettings>(value)
+        } catch (e: Exception) {
+            println("Error encountered while deserializing JSON to BoxSettings. Error: $e")
+            println("Setting default values for Box Settings")
+            boxSettingDefaults()
+        }
+
+    override fun toString(value: BoxSettings) = Json.encodeToString(value)
 }

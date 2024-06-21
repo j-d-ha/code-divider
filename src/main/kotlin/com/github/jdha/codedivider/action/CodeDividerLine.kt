@@ -1,6 +1,7 @@
 package com.github.jdha.codedivider.action
 
 import com.github.jdha.codedivider.settings.*
+import com.intellij.lang.Commenter
 import com.intellij.lang.LanguageCommenters
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -87,37 +88,7 @@ fun codeDivider(e: AnActionEvent, textPosition: TextPosition, lineSettings: Line
     val commentPad = if (lineSettings.whiteSpacePadCommentSymbol) SPACE else EMPTY
 
     val commenter = LanguageCommenters.INSTANCE.forLanguage(language)
-
-    // some languages like xml don't have lineCommentPrefix; some like python don't have
-    // blockCommentPrefix. We use the elvis operator to handle this and check if any value is null
-    val lineCommentPrefix = commenter.lineCommentPrefix?.trim()
-    val blockCommentPrefix = commenter.blockCommentPrefix?.trim()
-    val blockCommentSuffix = commenter.blockCommentSuffix?.trim()
-
-    // some files like .txt files wont have comment symbols
-    if (lineSettings.errorOnNoCommentSymbol &&
-        lineCommentPrefix == null &&
-        blockCommentPrefix == null)
-        throw Exception("No comment prefix found")
-
-    val commentPrefix =
-        when (lineSettings.commentSymbolType) {
-            CommentSymbolType.ONE_SINGLE_LINE,
-            CommentSymbolType.TWO_SINGLE_LINE ->
-                (lineCommentPrefix ?: blockCommentPrefix) + commentPad
-            CommentSymbolType.TWO_MULTI_LINE ->
-                (blockCommentPrefix ?: lineCommentPrefix) + commentPad
-        }
-
-    val commentSuffix =
-        when (lineSettings.commentSymbolType) {
-            CommentSymbolType.ONE_SINGLE_LINE ->
-                if (lineCommentPrefix != null) EMPTY else commentPad + blockCommentSuffix
-            CommentSymbolType.TWO_SINGLE_LINE ->
-                commentPad + (lineCommentPrefix ?: blockCommentSuffix)
-            CommentSymbolType.TWO_MULTI_LINE ->
-                commentPad + (blockCommentSuffix ?: lineCommentPrefix)
-        }
+    val (commentPrefix, commentSuffix) = getCommentSymbols(commenter, lineSettings, commentPad)
 
     val indentLevel = lineText.takeWhile { it.isWhitespace() }.length
     var existingText = lineText.dropWhile { it.isWhitespace() }.trim()
@@ -200,4 +171,45 @@ fun codeDivider(e: AnActionEvent, textPosition: TextPosition, lineSettings: Line
     }
     // move caret to end of line
     caretModel.moveToOffset(document.getLineEndOffset(caretModel.logicalPosition.line))
+}
+
+// ══ HELPERS ══════════════════════════════════════════════════════════════════════════════════════
+
+fun getCommentSymbols(
+    commenter: Commenter,
+    lineSettings: LineSettings,
+    commentPad: String
+): Pair<String, String> {
+    // some languages like xml don't have lineCommentPrefix; some like python don't have
+    // blockCommentPrefix. We use the elvis operator to handle this and check if any value is null
+    val lineCommentPrefix = commenter.lineCommentPrefix?.trim()
+    val blockCommentPrefix = commenter.blockCommentPrefix?.trim()
+    val blockCommentSuffix = commenter.blockCommentSuffix?.trim()
+
+    // some files like .txt files wont have comment symbols
+    if (lineSettings.errorOnNoCommentSymbol &&
+        lineCommentPrefix == null &&
+        blockCommentPrefix == null)
+        throw Exception("No comment prefix found")
+
+    val commentPrefix =
+        when (lineSettings.commentSymbolType) {
+            CommentSymbolType.ONE_SINGLE_LINE,
+            CommentSymbolType.TWO_SINGLE_LINE ->
+                (lineCommentPrefix ?: blockCommentPrefix) + commentPad
+            CommentSymbolType.TWO_MULTI_LINE ->
+                (blockCommentPrefix ?: lineCommentPrefix) + commentPad
+        }
+
+    val commentSuffix =
+        when (lineSettings.commentSymbolType) {
+            CommentSymbolType.ONE_SINGLE_LINE ->
+                if (lineCommentPrefix != null) EMPTY else commentPad + blockCommentSuffix
+            CommentSymbolType.TWO_SINGLE_LINE ->
+                commentPad + (lineCommentPrefix ?: blockCommentSuffix)
+            CommentSymbolType.TWO_MULTI_LINE ->
+                commentPad + (blockCommentSuffix ?: lineCommentPrefix)
+        }
+
+    return Pair(commentPrefix, commentSuffix)
 }
