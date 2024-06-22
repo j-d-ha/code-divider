@@ -72,8 +72,8 @@
         </action>
 
         <!-- ── Boxes ────────────────────────────────────────────────────────────────────────────────────────────── -->
-        <action id="com.github.jdha.codedivider.action.CodeDividerBox"
-                class="com.github.jdha.codedivider.action.CodeDividerBox"
+        <action id="com.github.jdha.codedivider.action.CodeDividerNormalBox"
+                class="com.github.jdha.codedivider.action.CodeDividerNormalBox"
                 text="Code Divider - Box"
                 description="Code Divider - Encapsulate text in box.">
             <add-to-group group-id="ToolsMenu" anchor="after"

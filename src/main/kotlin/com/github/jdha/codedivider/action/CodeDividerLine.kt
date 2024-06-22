@@ -88,8 +88,15 @@ fun codeDivider(e: AnActionEvent, textPosition: TextPosition, lineSettings: Line
     val commentPad = if (lineSettings.whiteSpacePadCommentSymbol) SPACE else EMPTY
 
     val commenter = LanguageCommenters.INSTANCE.forLanguage(language)
-    val (commentPrefix, commentSuffix) = getCommentSymbols(commenter, lineSettings, commentPad)
+    val (commentPrefix, commentSuffix) =
+        getCommentSymbols(
+            commenter = commenter,
+            errorOnNoCommentSymbol = lineSettings.whiteSpacePadCommentSymbol,
+            commentPad = commentPad,
+            commentSymbolType = lineSettings.commentSymbolType,
+        )
 
+    // ── Existing Text ────────────────────────────────────────────────────────────────────────────
     val indentLevel = lineText.takeWhile { it.isWhitespace() }.length
     var existingText = lineText.dropWhile { it.isWhitespace() }.trim()
 
@@ -177,8 +184,9 @@ fun codeDivider(e: AnActionEvent, textPosition: TextPosition, lineSettings: Line
 
 fun getCommentSymbols(
     commenter: Commenter,
-    lineSettings: LineSettings,
-    commentPad: String
+    errorOnNoCommentSymbol: Boolean,
+    commentPad: String,
+    commentSymbolType: CommentSymbolType
 ): Pair<String, String> {
     // some languages like xml don't have lineCommentPrefix; some like python don't have
     // blockCommentPrefix. We use the elvis operator to handle this and check if any value is null
@@ -187,13 +195,11 @@ fun getCommentSymbols(
     val blockCommentSuffix = commenter.blockCommentSuffix?.trim()
 
     // some files like .txt files wont have comment symbols
-    if (lineSettings.errorOnNoCommentSymbol &&
-        lineCommentPrefix == null &&
-        blockCommentPrefix == null)
+    if (errorOnNoCommentSymbol && lineCommentPrefix == null && blockCommentPrefix == null)
         throw Exception("No comment prefix found")
 
     val commentPrefix =
-        when (lineSettings.commentSymbolType) {
+        when (commentSymbolType) {
             CommentSymbolType.ONE_SINGLE_LINE,
             CommentSymbolType.TWO_SINGLE_LINE ->
                 (lineCommentPrefix ?: blockCommentPrefix) + commentPad
@@ -202,7 +208,7 @@ fun getCommentSymbols(
         }
 
     val commentSuffix =
-        when (lineSettings.commentSymbolType) {
+        when (commentSymbolType) {
             CommentSymbolType.ONE_SINGLE_LINE ->
                 if (lineCommentPrefix != null) EMPTY else commentPad + blockCommentSuffix
             CommentSymbolType.TWO_SINGLE_LINE ->

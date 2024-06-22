@@ -40,6 +40,7 @@ enum class BoxType {
     NORMAL,
     ROUNDED,
     HEAVY,
+    DOUBLE,
     NORMAL_OPEN_TOP,
     ROUNDED_OPEN_TOP,
 }
@@ -61,8 +62,10 @@ data class LineSettings(
     var errorOnNoCommentSymbol: Boolean
 )
 
+@Serializable
 data class BoxSettings(
-    var maxLineLength: Int,
+    var maxLength: Int,
+    var targetLength: Int,
     var textCase: TextCase,
     var commentSymbolType: CommentSymbolType,
     var errorOnNoCommentSymbol: Boolean
@@ -122,7 +125,8 @@ fun normalSettingDefaults() =
 
 fun boxSettingDefaults() =
     BoxSettings(
-        maxLineLength = 88,
+        maxLength = 88,
+        targetLength = 60,
         textCase = TextCase.TITLE,
         commentSymbolType = CommentSymbolType.ONE_SINGLE_LINE,
         errorOnNoCommentSymbol = true,

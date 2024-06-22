@@ -100,7 +100,7 @@ class CodeDividerSettingsConfigurable : BoundConfigurable("Code Divider") {
                         }
 
                         row("Custom line character") {
-                            comboBox(listOf("═"))
+                            comboBox(listOf("═", "━"))
                                 .applyToComponent {
                                     isEditable = true
                                     editor.editorComponent.addKeyListener(
@@ -143,7 +143,11 @@ class CodeDividerSettingsConfigurable : BoundConfigurable("Code Divider") {
             // ══ BOX ══════════════════════════════════════════════════════════════════════════════
             collapsibleGroup("Code Divider - Box") {
                     row("Box max length") {
-                        spinner(40..300).bindIntValue(settings.boxSettings::maxLineLength)
+                        spinner(40..300).bindIntValue(settings.boxSettings::maxLength)
+                    }
+
+                    row("Target box length") {
+                        spinner(40..300).bindIntValue(settings.boxSettings::targetLength)
                     }
                 }
                 .expanded = true
