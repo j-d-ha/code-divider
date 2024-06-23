@@ -6,7 +6,101 @@
 
 <!-- Plugin description -->
 
-This is a plugin that lets you add dividers to your code using comments.
+## Description
+
+This is a plugin that lets you add dividers to your code using comments. Diver types include lines and boxes. Sample
+dividers are shown below.
+
+Lines:
+
+```text
+Normal Lines
+── Normal Left ──────────────────────────────────────────────────────────────────────
+─────────────────────────────────── Normal Center ───────────────────────────────────
+───────────────────────────────────────────────────────────────────── Normal Right ──
+
+Heavy Lines
+━━ HEAVY LEFT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ HEAVY CENTER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ HEAVY RIGHT ━━
+
+Double Lines
+══ Double Left ══════════════════════════════════════════════════════════════════════
+═══════════════════════════════════ Double Center ═══════════════════════════════════
+═════════════════════════════════════════════════════════════════════ Double Right ══
+```
+
+Boxes:
+
+```text
+     ┌──────────────────────────────────────────────────────────┐
+     │                   normal, single line                    │
+     └──────────────────────────────────────────────────────────┘
+
+     ┌──────────────────────────────────────────────────────────┐
+     │  normal, multi line                                      │
+     │  Lorem ipsum dolor sit amet, consectetur adipiscing      │
+     │  elit, sed do eiusmod tempor incididunt ut labore et     │
+     │  dolore magna aliqua.                                    │
+     └──────────────────────────────────────────────────────────┘
+
+     ╭──────────────────────────────────────────────────────────╮
+     │                       box, rounded                       │
+     ╰──────────────────────────────────────────────────────────╯
+
+     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+     ┃                        box, heavy                        ┃
+     ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+     ╔══════════════════════════════════════════════════════════╗
+     ║                     box, double line                     ║
+     ╚══════════════════════════════════════════════════════════╝
+
+     ┌─                                                        ─┐
+     │                      box, open top                       │
+     └─                                                        ─┘
+
+     ╭─                                                        ─╮
+     │                  box, open top, rounded                  │
+     ╰─                                                        ─╯
+
+     ┏━                                                        ━┓
+     ┃                   box, open top, heavy                   ┃
+     ┗━                                                        ━┛
+
+     ╔═                                                        ═╗
+     ║                box, open top, double line                ║
+     ╚═                                                        ═╝
+
+     ┌──────────────────────────────────────────────────────────┐
+                            box, open side
+     └──────────────────────────────────────────────────────────┘
+
+     ╭──────────────────────────────────────────────────────────╮
+                       box, open side, rounded
+     ╰──────────────────────────────────────────────────────────╯
+
+     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+                        box, open side, heavy
+     ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+     ╔══════════════════════════════════════════════════════════╗
+                     box, open side, double line
+     ╚══════════════════════════════════════════════════════════╝
+
+```
+
+## Usage
+
+It is recommended to access code dividers by searching `Code Divider` in `Find Action` . This can be done by
+pressing `Ctrl + Shift + A` and
+typing `Code Divider`. This will bring up a list of all available dividers. Selecting one will insert it at the current
+cursor position. Alternatively, selecting `Code Divider` will bring up a menu of all available dividers.
+
+## Settings
+
+Most parts of `Code Divider` can be customized. This includes lengths, text transformation, and line symbol types. These
+settings can be accessed in <kbd>Settings/Preferences</kbd> > <kbd>Code Divider</kbd>.
 
 <!-- Plugin description end -->
 
@@ -22,6 +116,14 @@ This is a plugin that lets you add dividers to your code using comments.
   Download the [latest release](https://github.com/j-d-ha/code-divider/releases/latest) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
+---
+
+## Acknowledgements
+
+This theme is heavily inspired by [comment-box.nvim](https://github.com/LudoPinelli/comment-box.nvim).
 
 ---
-Plugin based on the [IntelliJ Platform Plugin Template][template].
+
+## Issues and Bugs
+
+Please submit issues with any bugs you find. 

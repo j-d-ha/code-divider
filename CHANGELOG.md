@@ -1,7 +1,9 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# code-divider Changelog
+# Code Divider Changelog
 
-## [Unreleased]
+## [1.0.0] - 2024-06-23
+
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+
+- Initial release.
