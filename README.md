@@ -122,8 +122,6 @@ settings can be accessed in <kbd>Settings/Preferences</kbd> > <kbd>Code Divider<
 
 This theme is heavily inspired by [comment-box.nvim](https://github.com/LudoPinelli/comment-box.nvim).
 
----
-
 ## Issues and Bugs
 
 Please submit issues with any bugs you find. 
