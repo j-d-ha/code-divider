@@ -1,6 +1,6 @@
 # Code Divider
 
-![Build](https://github.com/j-d-ha/code-divider/workflows/Build/badge.svg)
+![Build](https://github.com/j-d-ha/Code-Divider/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/24705.svg)](https://plugins.jetbrains.com/plugin/24705)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/24705.svg)](https://plugins.jetbrains.com/plugin/24705)
 
