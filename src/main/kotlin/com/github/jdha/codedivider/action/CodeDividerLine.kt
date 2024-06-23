@@ -1,6 +1,9 @@
 package com.github.jdha.codedivider.action
 
-import com.github.jdha.codedivider.settings.*
+import com.github.jdha.codedivider.settings.CodeDividerSettingsState
+import com.github.jdha.codedivider.settings.CommentSymbolType
+import com.github.jdha.codedivider.settings.TextCase
+import com.github.jdha.codedivider.settings.TextPosition
 import com.intellij.lang.Commenter
 import com.intellij.lang.LanguageCommenters
 import com.intellij.openapi.actionSystem.AnAction
@@ -9,69 +12,162 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import java.util.*
 
-// Examples
+// ━━ SAMPLE LINES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 // Normal Lines
 // ── Normal Left ──────────────────────────────────────────────────────────────────────
 // ─────────────────────────────────── Normal Center ───────────────────────────────────
-// ────────────────────────────────────────────────────────────────────── Normal Right──
+// ───────────────────────────────────────────────────────────────────── Normal Right ──
 
 // Heavy Lines
-// ══ HEAVY LEFT ═══════════════════════════════════════════════════════════════════════
-// ═══════════════════════════════════ HEAVY CENTER ════════════════════════════════════
-// ═══════════════════════════════════════════════════════════════════════ HEAVY RIGHT══
+// ━━ HEAVY LEFT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ HEAVY CENTER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ HEAVY RIGHT ━━
+
+// Double Lines
+// ══ Double Left ══════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════ Double Center ═══════════════════════════════════
+// ═════════════════════════════════════════════════════════════════════ Double Right ══
+
+// ━━ CONSTANTS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 // General
 const val SPACE = " "
 const val EMPTY = ""
 
-// ══ Normal ═══════════════════════════════════════════════════════════════════════════════════════
+// ━━ ACTIONS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-class CodeDividerLineTextLeftNormal : AnAction() {
+// Standard
+class CodeDividerLineTextLeftStandard : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
-        codeDivider(e, TextPosition.LEFT, CodeDividerSettingsState.instance.normalLineSettings)
+        val settings = CodeDividerSettingsState.instance
+        codeDivider(
+            e = e,
+            settings = settings,
+            textPosition = TextPosition.LEFT,
+            lineCar = settings.lineCharStandard,
+            textCase = settings.textCaseStandard,
+        )
     }
 }
 
-class CodeDividerLineTextCenterNormal : AnAction() {
+class CodeDividerLineTextCenterStandard : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
-        codeDivider(e, TextPosition.CENTER, CodeDividerSettingsState.instance.normalLineSettings)
+        val settings = CodeDividerSettingsState.instance
+        codeDivider(
+            e = e,
+            settings = settings,
+            textPosition = TextPosition.CENTER,
+            lineCar = settings.lineCharStandard,
+            textCase = settings.textCaseStandard,
+        )
     }
 }
 
-class CodeDividerLineTextRightNormal : AnAction() {
+class CodeDividerLineTextRightStandard : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
-        codeDivider(e, TextPosition.Right, CodeDividerSettingsState.instance.normalLineSettings)
+        val settings = CodeDividerSettingsState.instance
+        codeDivider(
+            e = e,
+            settings = settings,
+            textPosition = TextPosition.Right,
+            lineCar = settings.lineCharStandard,
+            textCase = settings.textCaseStandard,
+        )
     }
 }
 
-// ══ Heavy ════════════════════════════════════════════════════════════════════════════════════════
-
+// Heavy
 class CodeDividerLineTextLeftHeavy : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
-        codeDivider(e, TextPosition.LEFT, CodeDividerSettingsState.instance.heavyLineSettings)
+        val settings = CodeDividerSettingsState.instance
+        codeDivider(
+            e = e,
+            settings = settings,
+            textPosition = TextPosition.LEFT,
+            lineCar = settings.lineCharHeavy,
+            textCase = settings.textCaseHeavy,
+        )
     }
 }
 
 class CodeDividerLineTextCenterHeavy : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
-        codeDivider(e, TextPosition.CENTER, CodeDividerSettingsState.instance.heavyLineSettings)
+        val settings = CodeDividerSettingsState.instance
+        codeDivider(
+            e = e,
+            settings = settings,
+            textPosition = TextPosition.CENTER,
+            lineCar = settings.lineCharHeavy,
+            textCase = settings.textCaseHeavy,
+        )
     }
 }
 
 class CodeDividerLineTextRightHeavy : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
-        codeDivider(e, TextPosition.Right, CodeDividerSettingsState.instance.heavyLineSettings)
+        val settings = CodeDividerSettingsState.instance
+        codeDivider(
+            e = e,
+            settings = settings,
+            textPosition = TextPosition.Right,
+            lineCar = settings.lineCharHeavy,
+            textCase = settings.textCaseHeavy,
+        )
     }
 }
 
-// ══ Logic ════════════════════════════════════════════════════════════════════════════════════════
+// Double
+class CodeDividerLineTextLeftDouble : AnAction() {
+    override fun actionPerformed(e: AnActionEvent) {
+        val settings = CodeDividerSettingsState.instance
+        codeDivider(
+            e = e,
+            settings = settings,
+            textPosition = TextPosition.LEFT,
+            lineCar = settings.lineCharDouble,
+            textCase = settings.textCaseDouble,
+        )
+    }
+}
 
-fun codeDivider(e: AnActionEvent, textPosition: TextPosition, lineSettings: LineSettings) {
+class CodeDividerLineTextCenterDouble : AnAction() {
+    override fun actionPerformed(e: AnActionEvent) {
+        val settings = CodeDividerSettingsState.instance
+        codeDivider(
+            e = e,
+            settings = settings,
+            textPosition = TextPosition.CENTER,
+            lineCar = settings.lineCharDouble,
+            textCase = settings.textCaseDouble,
+        )
+    }
+}
+
+class CodeDividerLineTextRightDouble : AnAction() {
+    override fun actionPerformed(e: AnActionEvent) {
+        val settings = CodeDividerSettingsState.instance
+        codeDivider(
+            e = e,
+            settings = settings,
+            textPosition = TextPosition.Right,
+            lineCar = settings.lineCharDouble,
+            textCase = settings.textCaseDouble,
+        )
+    }
+}
+
+// ━━ LOGIC ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+fun codeDivider(
+    e: AnActionEvent,
+    settings: CodeDividerSettingsState,
+    textPosition: TextPosition,
+    lineCar: String,
+    textCase: TextCase
+) {
     // ── Setup Values Needed To Make Line ─────────────────────────────────────────────────────────
     val editor = e.getData(CommonDataKeys.EDITOR) ?: return
-
-    // val settings = CodeDividerSettingsState.instance
 
     val document = editor.document
     val caretModel = editor.caretModel
@@ -85,15 +181,15 @@ fun codeDivider(e: AnActionEvent, textPosition: TextPosition, lineSettings: Line
     val language = e.getData(CommonDataKeys.PSI_FILE)?.language ?: return
 
     // ── Comment Symbols ──────────────────────────────────────────────────────────────────────────
-    val commentPad = if (lineSettings.whiteSpacePadCommentSymbol) SPACE else EMPTY
+    val commentPad = if (settings.whiteSpacePadCommentSymbolLine) SPACE else EMPTY
 
     val commenter = LanguageCommenters.INSTANCE.forLanguage(language)
     val (commentPrefix, commentSuffix) =
         getCommentSymbols(
             commenter = commenter,
-            errorOnNoCommentSymbol = lineSettings.whiteSpacePadCommentSymbol,
+            errorOnNoCommentSymbol = settings.errorOnNoCommentSymbol,
             commentPad = commentPad,
-            commentSymbolType = lineSettings.commentSymbolType,
+            commentSymbolType = settings.commentSymbolTypeLine,
         )
 
     // ── Existing Text ────────────────────────────────────────────────────────────────────────────
@@ -105,9 +201,9 @@ fun codeDivider(e: AnActionEvent, textPosition: TextPosition, lineSettings: Line
 
     // ── Blank Line ───────────────────────────────────────────────────────────────────────────────
     if (existingText.isBlank()) {
-        val remainingLength = lineSettings.lineLength - lineStart.length - commentSuffix.length
+        val remainingLength = settings.lineLengthLine - lineStart.length - commentSuffix.length
         if (remainingLength > 0) {
-            lineBody = lineSettings.customLineChar.repeat(remainingLength)
+            lineBody = lineCar.repeat(remainingLength)
         }
         WriteCommandAction.runWriteCommandAction(e.project) {
             val line = lineStart + lineBody + commentSuffix
@@ -120,7 +216,7 @@ fun codeDivider(e: AnActionEvent, textPosition: TextPosition, lineSettings: Line
 
     // ── Not Blank Line ───────────────────────────────────────────────────────────────────────────
     existingText =
-        when (lineSettings.textCase) {
+        when (textCase) {
             TextCase.UPPER -> existingText.uppercase()
             TextCase.LOWER -> existingText.lowercase()
             TextCase.TITLE ->
@@ -135,39 +231,31 @@ fun codeDivider(e: AnActionEvent, textPosition: TextPosition, lineSettings: Line
 
     when (textPosition) {
         TextPosition.LEFT -> {
-            val prefixLineCharCount = if (lineSettings.whiteSpacePadCommentSymbol) 2 else 3
-            lineBody =
-                lineSettings.customLineChar.repeat(prefixLineCharCount) +
-                    SPACE +
-                    existingText +
-                    SPACE
+            val prefixLineCharCount = if (settings.whiteSpacePadCommentSymbolLine) 2 else 3
+            lineBody = lineCar.repeat(prefixLineCharCount) + SPACE + existingText + SPACE
             val remainingLength =
-                lineSettings.lineLength - lineStart.length - lineBody.length - commentSuffix.length
+                settings.lineLengthLine - lineStart.length - lineBody.length - commentSuffix.length
             if (remainingLength > 0) {
-                lineBody += lineSettings.customLineChar.repeat(remainingLength)
+                lineBody += lineCar.repeat(remainingLength)
             }
         }
         TextPosition.CENTER -> {
             lineBody = SPACE + existingText + SPACE
             val remainingLength =
-                lineSettings.lineLength - lineStart.length - lineBody.length - commentSuffix.length
+                settings.lineLengthLine - lineStart.length - lineBody.length - commentSuffix.length
             if (remainingLength > 0) {
                 val leftPadding = remainingLength / 2
                 val rightPadding = remainingLength - leftPadding
-                lineBody =
-                    lineSettings.customLineChar.repeat(leftPadding) +
-                        lineBody +
-                        lineSettings.customLineChar.repeat(rightPadding)
+                lineBody = lineCar.repeat(leftPadding) + lineBody + lineCar.repeat(rightPadding)
             }
         }
         TextPosition.Right -> {
-            val suffixLineCharCount = if (lineSettings.whiteSpacePadCommentSymbol) 2 else 3
-            lineBody =
-                SPACE + existingText + lineSettings.customLineChar.repeat(suffixLineCharCount)
+            val suffixLineCharCount = if (settings.whiteSpacePadCommentSymbolLine) 2 else 3
+            lineBody = SPACE + existingText + SPACE + lineCar.repeat(suffixLineCharCount)
             val remainingLength =
-                lineSettings.lineLength - lineStart.length - lineBody.length - commentSuffix.length
+                settings.lineLengthLine - lineStart.length - lineBody.length - commentSuffix.length
             if (remainingLength > 0) {
-                lineBody = lineSettings.customLineChar.repeat(remainingLength) + lineBody
+                lineBody = lineCar.repeat(remainingLength) + lineBody
             }
         }
     }
@@ -180,7 +268,7 @@ fun codeDivider(e: AnActionEvent, textPosition: TextPosition, lineSettings: Line
     caretModel.moveToOffset(document.getLineEndOffset(caretModel.logicalPosition.line))
 }
 
-// ══ HELPERS ══════════════════════════════════════════════════════════════════════════════════════
+// ━━ HELPERS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 fun getCommentSymbols(
     commenter: Commenter,

@@ -22,63 +22,193 @@
     </extensions>
 
     <actions>
-        <!-- ── Lines - Normal ───────────────────────────────────────────────────────────────────────────────────── -->
-        <action id="com.github.jdha.codedivider.action.CodeDividerLineTextLeftNormal"
-                class="com.github.jdha.codedivider.action.CodeDividerLineTextLeftNormal"
-                text="Code Divider - Line - Normal - Text Left"
-                description="Code Divider - Normal line with text to left.">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </action>
+        <!-- Code Divider main action menu -->
+        <group id="codedivider" text="Code Divider" popup="true">
+            <add-to-group group-id="EditMenu" anchor="last"/>
+        </group>
 
-        <action id="com.github.jdha.codedivider.action.CodeDividerLineTextCenterNormal"
-                class="com.github.jdha.codedivider.action.CodeDividerLineTextCenterNormal"
-                text="Code Divider - Line - Normal - Text Center"
-                description="Code Divider - Normal line with text in the center.">
-            <add-to-group group-id="ToolsMenu" anchor="after"
-                          relative-to-action="com.github.jdha.codedivider.action.CodeDividerLineTextLeftNormal"/>
-        </action>
+        <!-- Code Divider lines action menu -->
+        <group id="codedivider.lines" text="Lines" popup="true" searchable="false">
+            <add-to-group group-id="codedivider" anchor="first"/>
+        </group>
 
-        <action id="com.github.jdha.codedivider.action.CodeDividerLineTextRightNormal"
-                class="com.github.jdha.codedivider.action.CodeDividerLineTextRightNormal"
-                text="Code Divider - Line - Normal - Text Right"
-                description="Code Divider - Normal line with text to right.">
-            <add-to-group group-id="ToolsMenu" anchor="after"
-                          relative-to-action="com.github.jdha.codedivider.action.CodeDividerLineTextCenterNormal"/>
-        </action>
+        <!-- ── Lines - Standard ─────────────────────────────────────────────────────────────────────────────────── -->
+        <group id="codedivider.lines.normal" text="Single Lines"
+               description="Code Divider lines normal weight"
+               popup="true"
+               searchable="false">
+            <add-to-group group-id="codedivider.lines" anchor="first"/>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerLineTextLeftStandard"
+                    class="com.github.jdha.codedivider.action.CodeDividerLineTextLeftStandard"
+                    text="Code Divider - Line - Text Left"
+                    description="Code Divider - Normal line with text to left.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerLineTextCenterStandard"
+                    class="com.github.jdha.codedivider.action.CodeDividerLineTextCenterStandard"
+                    text="Code Divider - Line - Text Center"
+                    description="Code Divider - Normal line with text in the center.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerLineTextRightStandard"
+                    class="com.github.jdha.codedivider.action.CodeDividerLineTextRightStandard"
+                    text="Code Divider - Line - Text Right"
+                    description="Code Divider - Normal line with text to right.">
+            </action>
+        </group>
 
         <!-- ── Lines - Heavy ────────────────────────────────────────────────────────────────────────────────────── -->
-        <action id="com.github.jdha.codedivider.action.CodeDividerLineTextLeftHeavy"
-                class="com.github.jdha.codedivider.action.CodeDividerLineTextLeftHeavy"
-                text="Code Divider - Line - Heavy - Text Left"
-                description="Code Divider - Heavy line with text to left.">
-            <add-to-group group-id="ToolsMenu" anchor="after"
-                          relative-to-action="com.github.jdha.codedivider.action.CodeDividerLineTextRightNormal"/>
-        </action>
+        <group id="codedivider.lines.heavy" text="Heavy Lines"
+               description="Code Divider lines heavy weight"
+               popup="true"
+               searchable="false">
+            <add-to-group group-id="codedivider.lines" anchor="last"/>
 
-        <action id="com.github.jdha.codedivider.action.CodeDividerLineTextCenterHeavy"
-                class="com.github.jdha.codedivider.action.CodeDividerLineTextCenterHeavy"
-                text="Code Divider - Line - Heavy - Text Center"
-                description="Code Divider - Heavy line with text in the center.">
-            <add-to-group group-id="ToolsMenu" anchor="after"
-                          relative-to-action="com.github.jdha.codedivider.action.CodeDividerLineTextLeftHeavy"/>
-        </action>
+            <action id="com.github.jdha.codedivider.action.CodeDividerLineTextLeftHeavy"
+                    class="com.github.jdha.codedivider.action.CodeDividerLineTextLeftHeavy"
+                    text="Code Divider - Line - Heavy - Text Left"
+                    description="Code Divider - Heavy line with text to left.">
+            </action>
 
-        <action id="com.github.jdha.codedivider.action.CodeDividerLineTextRightHeavy"
-                class="com.github.jdha.codedivider.action.CodeDividerLineTextRightHeavy"
-                text="Code Divider - Line - Heavy - Text Right"
-                description="Code Divider - Heavy line with text to right.">
-            <add-to-group group-id="ToolsMenu" anchor="after"
-                          relative-to-action="com.github.jdha.codedivider.action.CodeDividerLineTextCenterHeavy"/>
-        </action>
+            <action id="com.github.jdha.codedivider.action.CodeDividerLineTextCenterHeavy"
+                    class="com.github.jdha.codedivider.action.CodeDividerLineTextCenterHeavy"
+                    text="Code Divider - Line - Heavy - Text Center"
+                    description="Code Divider - Heavy line with text in the center.">
+            </action>
 
-        <!-- ── Boxes ────────────────────────────────────────────────────────────────────────────────────────────── -->
-        <action id="com.github.jdha.codedivider.action.CodeDividerNormalBox"
-                class="com.github.jdha.codedivider.action.CodeDividerNormalBox"
-                text="Code Divider - Box"
-                description="Code Divider - Encapsulate text in box.">
-            <add-to-group group-id="ToolsMenu" anchor="after"
-                          relative-to-action="com.github.jdha.codedivider.action.CodeDividerLineTextRightHeavy"/>
-        </action>
+            <action id="com.github.jdha.codedivider.action.CodeDividerLineTextRightHeavy"
+                    class="com.github.jdha.codedivider.action.CodeDividerLineTextRightHeavy"
+                    text="Code Divider - Line - Heavy - Text Right"
+                    description="Code Divider - Heavy line with text to right.">
+            </action>
+        </group>
+
+        <!-- ── Lines - Double ───────────────────────────────────────────────────────────────────────────────────── -->
+        <group id="codedivider.lines.double" text="Double Lines"
+               description="Code Divider lines heavy weight"
+               popup="true"
+               searchable="false">
+            <add-to-group group-id="codedivider.lines" anchor="last"/>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerLineTextLeftDouble"
+                    class="com.github.jdha.codedivider.action.CodeDividerLineTextLeftDouble"
+                    text="Code Divider - Line - Double - Text Left"
+                    description="Code Divider - Double line with text to left.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerLineTextCenterDouble"
+                    class="com.github.jdha.codedivider.action.CodeDividerLineTextCenterDouble"
+                    text="Code Divider - Line - Double - Text Center"
+                    description="Code Divider - Double line with text in the center.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerLineTextRightDouble"
+                    class="com.github.jdha.codedivider.action.CodeDividerLineTextRightDouble"
+                    text="Code Divider - Line - Double - Text Right"
+                    description="Code Divider - Double line with text to right.">
+            </action>
+        </group>
+
+
+        <!-- ── Boxes ────────────────────────────────────────────────────────────────────────────────────────── -->
+
+        <!-- Code Divider boxes action menu -->
+        <group id="codedivider.boxes" text="Boxes" description="Code divider boxes"
+               popup="true" searchable="false">
+            <add-to-group group-id="codedivider" anchor="last"/>
+        </group>
+
+        <!-- Closed Side -->
+        <group id="codedivider.boxes.standard" text="Standard" description="Code divider boxes standard"
+               popup="true" searchable="false">
+            <add-to-group group-id="codedivider.boxes" anchor="last"/>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerBoxStandard"
+                    class="com.github.jdha.codedivider.action.CodeDividerBoxStandard"
+                    text="Code Divider - Box - Standard"
+                    description="Code Divider - Encapsulate text in box.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerBoxRounded"
+                    class="com.github.jdha.codedivider.action.CodeDividerBoxRounded"
+                    text="Code Divider - Box - Rounded"
+                    description="Code Divider - Encapsulate text in box with rounded corners.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerBoxHeavy"
+                    class="com.github.jdha.codedivider.action.CodeDividerBoxHeavy"
+                    text="Code Divider - Box - Heavy"
+                    description="Code Divider - Encapsulate text in box with heavy lines.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerBoxDouble"
+                    class="com.github.jdha.codedivider.action.CodeDividerBoxDouble"
+                    text="Code Divider - Box - Double Line"
+                    description="Code Divider - Encapsulate text in box with double lines.">
+            </action>
+        </group>
+
+        <!-- Open Top -->
+        <group id="codedivider.boxes.openTop" text="Open Top" description="Code divider boxes open Top"
+               popup="true" searchable="false">
+            <add-to-group group-id="codedivider.boxes" anchor="last"/>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerBoxNormalOpenTop"
+                    class="com.github.jdha.codedivider.action.CodeDividerBoxNormalOpenTop"
+                    text="Code Divider - Box - Open Top"
+                    description="Code Divider - Encapsulate text in box with open top.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerBoxRoundedOpenTop"
+                    class="com.github.jdha.codedivider.action.CodeDividerBoxRoundedOpenTop"
+                    text="Code Divider - Box - Rounded Open Top"
+                    description="Code Divider - Encapsulate text in box with rounded lines and open top.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerBoxHeavyOpenTop"
+                    class="com.github.jdha.codedivider.action.CodeDividerBoxHeavyOpenTop"
+                    text="Code Divider - Box - Heavy Open Top"
+                    description="Code Divider - Encapsulate text in box with heavy lines and open top.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerBoxDoubleOpenTop"
+                    class="com.github.jdha.codedivider.action.CodeDividerBoxDoubleOpenTop"
+                    text="Code Divider - Box - Double Line Open Top"
+                    description="Code Divider - Encapsulate text in box with double lines and open top.">
+            </action>
+        </group>
+        >
+
+        <!-- Open Side -->
+        <group id="codedivider.boxes.openSide" text="Open Side" description="Code divider boxes open Side"
+               popup="true" searchable="false">
+            <add-to-group group-id="codedivider.boxes" anchor="last"/>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerBoxNormalOpenSide"
+                    class="com.github.jdha.codedivider.action.CodeDividerBoxNormalOpenSide"
+                    text="Code Divider - Box - Open Side"
+                    description="Code Divider - Encapsulate text in box with open sides.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerBoxRoundedOpenSide"
+                    class="com.github.jdha.codedivider.action.CodeDividerBoxRoundedOpenSide"
+                    text="Code Divider - Box - Rounded Open Side"
+                    description="Code Divider - Encapsulate text in box with rounded lines and open sides.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerBoxHeavyOpenSide"
+                    class="com.github.jdha.codedivider.action.CodeDividerBoxHeavyOpenSide"
+                    text="Code Divider - Box - Heavy Open Side"
+                    description="Code Divider - Encapsulate text in box with heavy lines and open sides.">
+            </action>
+
+            <action id="com.github.jdha.codedivider.action.CodeDividerBoxDoubleOpenSide"
+                    class="com.github.jdha.codedivider.action.CodeDividerBoxDoubleOpenSide"
+                    text="Code Divider - Box - Double Line Open Side"
+                    description="Code Divider - Encapsulate text in box with double lines and open sides.">
+            </action>
+        </group>
     </actions>
 
 </idea-plugin>
