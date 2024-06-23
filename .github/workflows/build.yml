@@ -38,7 +38,7 @@ jobs:
 
       # Check out current repository
       - name: Fetch Sources
-        uses: action/checkout@v4
+        uses: actions/checkout@v4
 
       # Validate wrapper
       - name: Gradle Wrapper Validation
@@ -46,7 +46,7 @@ jobs:
 
       # Set up Java environment for the next steps
       - name: Setup Java
-        uses: action/setup-java@v4
+        uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: 17
